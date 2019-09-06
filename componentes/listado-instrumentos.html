@@ -1,0 +1,82 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/polymer/lib/elements/dom-repeat.html">
+<link rel="import" href="../bower_components/iron-collapse/iron-collapse.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/game-card/game-card.html">
+<link rel="import" href="./pregunta-encuesta.html">
+<dom-module id="listado-instrumentos">
+	<template>
+	<style type="text/css">
+		
+	</style>
+	<iron-ajax
+		url="https://pokeapi.co/api/v2/pokemon"
+		last-response="{{instrumentos}}"
+		auto
+	>
+	</iron-ajax>
+	<pregunta-encuesta id="encuesta" pregunta="prueba de encuestas" on-desplegado="desplegadaOpcionAbu">
+
+	</pregunta-encuesta>
+	<button on-click="quitarElemento">quitar elemento</button>
+	<p>[[data]]</p>
+    <template is="dom-repeat" items="[[instrumentos.results]]">
+   		<instrumento-musical  on-desplegado="desplegadaOpcion"
+	     	nombre="[[item.name]]"
+			 descripcion="[[item.url]]"
+			 num="[[index]]"
+	     >
+	     
+	    </instrumento-musical>
+		<game-card symbol="♠" rank="[[item.name]]" flippable></game-card>  
+ 		</template>
+          </template>
+<script type="text/javascript">
+	class ListadoInstrumentos extends Polymer.Element {
+		static get is(){
+			return 'listado-instrumentos';
+		}
+		static get properties() {
+			return {
+					instrumentos:{
+						type: Array,
+						value: function(){
+							return [];
+						}
+				
+					},
+					nombre:{
+						type:String,
+						value:"Jimena"
+					},
+					apellido:{
+						type:String,
+						value:"Munoz"
+					},
+					data:{
+						type: String,
+						computed: '_unirCadena(nombre,apellido)'
+						}
+				
+					};
+			}
+		_unirCadena(nombre,apellido){
+			return nombre + apellido;
+		}
+
+		quitarElemento(){
+			//this.shadowRoot.removeChild(this.$.encuesta);
+			this.$.encuesta.remove();
+		}
+
+		desplegadaOpcion(e) {
+			console.log('escogiste un pokemon',e.detail.id);
+		}
+
+		desplegadaOpcionAbu(e) {
+			console.log('prueba');
+		}
+	}
+	window.customElements.define(ListadoInstrumentos.is, ListadoInstrumentos)
+</script>
+</dom-module>	

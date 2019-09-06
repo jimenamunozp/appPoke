@@ -1,0 +1,44 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/iron-collapse/iron-collapse.html">
+<dom-module id="instrumento-musical">
+	<template>
+	<style type="text/css">
+		
+	</style>
+	<p on-click="toggle">[[num]] - [[nombre]]</p>
+	<iron-collapse opened="[[desplegado]]">
+	<p> - [[descripcion]]</p>
+	</iron-collapse>
+	</template>
+<script type="text/javascript">
+	class InstrumentoMusical extends Polymer.Element {
+		static get is(){
+			return 'instrumento-musical';
+		}
+		static get properties() {
+			return {
+					nombre:String,
+					descripcion: String,
+					desplegado:{
+						type:Boolean,
+						value:false
+						
+					},
+					num:Number
+			};
+		}
+
+		toggle(){
+			this.desplegado =!this.desplegado;
+			this.dispatchEvent(new CustomEvent('desplegado', {
+				detail: {
+					id:this.num
+				},
+				bubbles:true,
+				composed:true
+			}));
+		}
+	}
+	window.customElements.define(InstrumentoMusical.is, InstrumentoMusical)
+</script>
+</dom-module>	
